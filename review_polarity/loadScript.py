@@ -4,6 +4,7 @@ import re
 import string
 import nltk
 from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
 
 try:
     nltk.data.find("corpora/stopwords")
@@ -26,7 +27,7 @@ def read_reviews_from_folder(folder_path, label):
 
 
 stop_words = set(stopwords.words("english")) - {"not", "no"}
-
+stemmer = PorterStemmer()
 
 def clean_text(text):
     # Remove HTML
@@ -38,6 +39,8 @@ def clean_text(text):
     # remove stopwords
     tokens = text.split()
     tokens = [word for word in tokens if word not in stop_words]
+    # stemming the text
+    tokens = [stemmer.stem(word) for word in tokens]
 
     return " ".join(tokens)
 
